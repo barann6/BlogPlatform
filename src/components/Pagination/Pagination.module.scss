@@ -1,0 +1,46 @@
+.pagination {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  justify-content: center;
+  & li {
+    margin: 0;
+    margin-right: 5px;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  & button {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    width: 22px;
+    border: {
+      color: rgba(0, 0, 0, 0);
+      radius: 4px;
+    }
+    background: none;
+    border: none;
+    font-family: 'Inter';
+    font-size: 12px;
+    line-height: 22px;
+    text-align: center;
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.75);
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+    }
+    &.current {
+      background-color: #1890ff;
+      cursor: default;
+      color: #fff;
+    }
+    &.disabled {
+      cursor: default;
+      color: rgba(0, 0, 0, 0.35);
+      background: none;
+    }
+  }
+}

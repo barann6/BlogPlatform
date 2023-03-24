@@ -1,0 +1,74 @@
+$green: #52c41a;
+.header {
+  display: flex;
+  align-items: center;
+  padding: 16px 22px 13px;
+  background-color: #fff;
+  font-size: 18px;
+  line-height: 28px;
+  & .homePage {
+    margin: 0;
+    margin-right: auto;
+    border: none;
+    text-decoration: none;
+    align-self: center;
+    color: rgba(0, 0, 0, 0.85);
+  }
+  & a,
+  button {
+    border: 1px solid #fff;
+    border-radius: 5px;
+    background-color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    font: {
+      family: inherit;
+      size: inherit;
+    }
+    line-height: inherit;
+    color: rgba(0, 0, 0, 0.85);
+    &.authto {
+      padding: 10px 18px;
+    }
+    &.logOut {
+      margin-left: 27px;
+      border-color: #000000bf;
+      &:hover {
+        background-color: #000000bf;
+        color: #fff;
+      }
+    }
+    &.signUp {
+      border-color: $green;
+      color: $green;
+      &:hover {
+        background-color: $green;
+        color: #fff;
+      }
+    }
+    &.create {
+      border-color: $green;
+      color: $green;
+      padding: 6px 10px;
+      font-size: 14px;
+      line-height: 20px;
+      &:hover {
+        background-color: $green;
+        color: #fff;
+      }
+    }
+    &.user {
+      margin-left: 27px;
+      padding: 0;
+      color: rgba(0, 0, 0, 0.75);
+      .avatar {
+        display: inline-block;
+        margin-left: 13px;
+        height: 46px;
+        width: 46px;
+        border-radius: 50%;
+        vertical-align: middle;
+      }
+    }
+  }
+}
