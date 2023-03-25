@@ -20,7 +20,7 @@ const EditArticle = () => {
   const error = useSelector((state) => state.openedArticle.error);
 
   if (isLoading) return <Loader />;
-  if (!isAuthorize) return <Redirect to="/BlogPlatform/sign-in/" />;
+  if (!isAuthorize) return <Redirect to="/sign-in/" />;
   if (error) return <ErrorMessage />;
 
   return (
@@ -42,7 +42,7 @@ const EditArticle = () => {
             data,
             slug,
             cb: () => {
-              history.push('/BlogPlatform/');
+              history.push('/');
             },
           })
         );

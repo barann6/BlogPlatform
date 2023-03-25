@@ -25,7 +25,7 @@ function SignIn() {
   const isAuthorize = useSelector((state) => state.authorization.userName);
   
   if (isLoading) return <Loader />;
-  if (isAuthorize) return <Redirect to="/BlogPlatform/" />;
+  if (isAuthorize) return <Redirect to="/" />;
 
   const onSubmit = ({ email, password }) => {
     dispatch(signIn({ email, password }));
@@ -76,7 +76,7 @@ function SignIn() {
       )}
 
       <section>
-        Don’t have an account? <Link to="/BlogPlatform/sign-up">Sign Up.</Link>
+        Don’t have an account? <Link to="/sign-up">Sign Up.</Link>
       </section>
     </form>
   );

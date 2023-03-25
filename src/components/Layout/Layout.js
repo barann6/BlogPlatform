@@ -16,7 +16,7 @@ function Layout() {
     <header className={classes.header}>
       <Link
         className={classes.homePage}
-        to="/BlogPlatform/"
+        to="/"
         onClick={() => {
           dispatch(
             getArticlesList({
@@ -32,13 +32,13 @@ function Layout() {
       {user.userName && (
         <button
           className={classes.create}
-          onClick={() => history.push('/BlogPlatform/new-article/')}>
+          onClick={() => history.push('/new-article/')}>
           Create article
         </button>
       )}
 
       {user.userName && (
-        <Link to="/BlogPlatform/profile/" className={classes.user}>
+        <Link to="/profile/" className={classes.user}>
           {user.userName}
           {user.image && (
             <img
@@ -66,7 +66,7 @@ function Layout() {
         <button
           className={classes.authto}
           onClick={() => {
-            history.push('/BlogPlatform/sign-in/');
+            history.push('/sign-in/');
           }}>
           Sign In
         </button>
@@ -76,7 +76,7 @@ function Layout() {
         <button
           className={[classes.authto, classes.signUp].join(' ')}
           onClick={() => {
-            history.push('/BlogPlatform/sign-up/');
+            history.push('/sign-up/');
           }}>
           Sign Up
         </button>

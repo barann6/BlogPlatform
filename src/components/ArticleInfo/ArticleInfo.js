@@ -60,12 +60,15 @@ function ArticleInfo({ data, mod }) {
       <div className={classes.header}>
         <Link
           className={[classes.title, classes[`title_${mod}`]].join(' ')}
-          to={`/BlogPlatform/articles/${data.slug}`}>
+          to={`/articles/${data.slug}`}>
           {title}
         </Link>
 
         <button
-          className={classes.like}
+          className={[
+            classes['like-button'],
+            classes[!_favorited ? 'like-button_liked' : 'like-button_no-liked'],
+          ].join(' ')}
           onClick={isAuthorized ? like : undefined}>
           {_favoritesCount}
         </button>
