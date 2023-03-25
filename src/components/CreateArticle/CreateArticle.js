@@ -15,7 +15,7 @@ const CreateArticle = () => {
   const isAuthorize = useSelector((state) => state.authorization.userName);
 
   if (isLoading) return <Loader />;
-  if (!isAuthorize) return <Redirect to="/sign-in/" />;
+  if (!isAuthorize) return <Redirect to="/BlogPlatform/sign-in/" />;
 
   return (
     <ArticleForm
@@ -32,7 +32,7 @@ const CreateArticle = () => {
             token,
             data,
             cb: () => {
-              history.push('/');
+              history.push('/BlogPlatform/');
             },
           })
         );

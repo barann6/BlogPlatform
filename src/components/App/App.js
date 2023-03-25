@@ -33,23 +33,23 @@ function App() {
       <main className={classes.main}>
 
         <Switch>
-          <Route path="/" exact component={ArticlesList} />
+          <Route path="/BlogPlatform/" exact component={ArticlesList} />
 
-          <Route path="/new-article/" component={CreateArticle} />
+          <Route path="/BlogPlatform/new-article/" component={CreateArticle} />
 
-          <Route path="/articles/:slug/edit/" component={EditArticle} />
+          <Route path="/BlogPlatform/articles/:slug/edit/" component={EditArticle} />
 
-          <Route path="/articles/:slug" component={Article} />
+          <Route path="/BlogPlatform/articles/:slug" component={Article} />
 
-          <Route path="/articles/" component={ArticlesList} />
+          <Route path="/BlogPlatform/articles/" component={ArticlesList} />
 
-          <Route path="/sign-up/" component={SignUp} />
+          <Route path="/BlogPlatform/sign-up/" component={SignUp} />
 
-          <Route path="/sign-in/" component={SignIn} />
+          <Route path="/BlogPlatform/sign-in/" component={SignIn} />
 
-          <Route path="/profile/" component={EditProfile} />
+          <Route path="/BlogPlatform/profile/" component={EditProfile} />
 
-          <Redirect to="/" component={ArticlesList} />
+          <Redirect to="/BlogPlatform/" component={ArticlesList} />
         </Switch>
       </main>
     </Router>

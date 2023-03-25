@@ -60,7 +60,7 @@ function ArticleInfo({ data, mod }) {
       <div className={classes.header}>
         <Link
           className={[classes.title, classes[`title_${mod}`]].join(' ')}
-          to={`/articles/${data.slug}`}>
+          to={`/BlogPlatform/articles/${data.slug}`}>
           {title}
         </Link>
 

@@ -36,7 +36,7 @@ function EditProfile() {
   } = useForm({ mode: 'onBlur' });
 
   if (isLoading) return <Loader />;
-  if (!isAuthorize) return <Redirect to="/sign-in/" />;
+  if (!isAuthorize) return <Redirect to="/BlogPlatform/sign-in/" />;
 
   const onSubmit = (data) => {
     const user = {};

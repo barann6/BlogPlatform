@@ -34,7 +34,7 @@ function SignUp() {
   } = useForm({ mode: 'onBlur' });
 
   if (isLoading) return <Loader />;
-  if (isAuthorize) return <Redirect to="/" />;
+  if (isAuthorize) return <Redirect to="/BlogPlatform/" />;
 
   const onSubmit = ({ username, email, password }) => {
     dispatch(signUp({ username, email, password }));
@@ -132,7 +132,7 @@ function SignUp() {
       <input type="submit" value="Create" disabled={!isValid} />
 
       <section>
-        Already have an account? <Link to="sign-in">Sign In.</Link>
+        Already have an account? <Link to="/BlogPlatform/sign-in">Sign In.</Link>
       </section>
     </form>
   );

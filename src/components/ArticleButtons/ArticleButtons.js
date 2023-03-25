@@ -43,7 +43,7 @@ const ArticleButtons = () => {
                     slug,
                     data: null,
                     cb: () => {
-                      history.push('/');
+                      history.push('/BlogPlatform/');
                     },
                   })
                 );
@@ -55,7 +55,7 @@ const ArticleButtons = () => {
         </div>
       )}
 
-      <button onClick={() => history.push(`/articles/${slug}/edit/`)}>
+      <button onClick={() => history.push(`/BlogPlatform/articles/${slug}/edit/`)}>
         Edit
       </button>
     </div>

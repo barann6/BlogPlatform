@@ -1,15 +1,18 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
 
 import classes from './ArticlesList.module.scss';
 import ArticleInfo from '../ArticleInfo/ArticleInfo';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import Loader from '../Loader/Loader';
 import Pagination from '../Pagination/Pagination';
-import { getArticlesList } from '../../store';
+import { getArticlesList, togglePage } from '../../store';
 
 function ArticlesList() {
   const dispatch = useDispatch();
+
+  const history = useHistory();
 
   const isAuthorized = useSelector((state) => state.authorization.userName);
   const token = useSelector((state) => state.authorization.token);
@@ -19,6 +22,10 @@ function ArticlesList() {
   useEffect(() => {
     dispatch(getArticlesList({ pageNumber: 1, token: isAuthorized ? token : null }));
   }, [isAuthorized]);
+
+  useEffect(() => {
+    dispatch(togglePage(1));
+  }, [history]);
 
   if (!articles) return <Loader />;
 
