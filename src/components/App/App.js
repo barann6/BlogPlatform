@@ -17,6 +17,15 @@ import Layout from '../Layout/Layout';
 import SignIn from '../SignIn/SignIn';
 import SignUp from '../SignUp/SignUp';
 import { getUserData } from '../../store/authorization';
+import {
+  LIST,
+  ARTICLE,
+  EDIT,
+  CREATE,
+  PROFILE,
+  SIGNIN,
+  SIGNUP,
+} from '../../routing_paths';
 
 function App() {
   const dispatch = useDispatch();
@@ -28,26 +37,25 @@ function App() {
   }, []);
 
   return (
-    <Router basename='/BlogPlatform'>
+    <Router basename="/BlogPlatform">
       <Layout />
       <main className={classes.main}>
-
         <Switch>
           <Route path="/" exact component={ArticlesList} />
 
-          <Route path="/new-article/" component={CreateArticle} />
+          <Route path={CREATE} component={CreateArticle} />
 
-          <Route path="/articles/:slug/edit/" component={EditArticle} />
+          <Route path={EDIT} component={EditArticle} />
 
-          <Route path="/articles/:slug" component={Article} />
+          <Route path={ARTICLE} component={Article} />
 
-          <Route path="/articles/" exact component={ArticlesList} />
+          <Route path={LIST} exact component={ArticlesList} />
 
-          <Route path="/sign-up/" component={SignUp} />
+          <Route path={SIGNUP} component={SignUp} />
 
-          <Route path="/sign-in/" component={SignIn} />
+          <Route path={SIGNIN} component={SignIn} />
 
-          <Route path="/profile/" component={EditProfile} />
+          <Route path={PROFILE} component={EditProfile} />
 
           <Redirect to="/" component={ArticlesList} />
         </Switch>

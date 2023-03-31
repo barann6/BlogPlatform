@@ -4,10 +4,11 @@ import { useHistory, Redirect } from 'react-router';
 import ArticleForm from '../ArticleForm/ArticleForm';
 import Loader from '../Loader/Loader';
 import { postArticle } from '../../store';
+import { SIGNIN } from '../../routing_paths';
 
 const CreateArticle = () => {
   const dispatch = useDispatch();
-  
+
   const history = useHistory();
 
   const token = useSelector((state) => state.authorization.token);
@@ -15,7 +16,7 @@ const CreateArticle = () => {
   const isAuthorize = useSelector((state) => state.authorization.userName);
 
   if (isLoading) return <Loader />;
-  if (!isAuthorize) return <Redirect to="/sign-in/" />;
+  if (!isAuthorize) return <Redirect to={SIGNIN} />;
 
   return (
     <ArticleForm

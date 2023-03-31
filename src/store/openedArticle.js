@@ -5,17 +5,17 @@ import blogPlatformService from '../service/blogPlatformService';
 //----------------------------------------------------------
 const extraReducer = (name) => {
   return createAsyncThunk(name, async (arg, { rejectWithValue }) => {
-    const _ = name !== 'deleteArticle';
+    const deleteCase = name === 'deleteArticle';
     try {
       const data = await blogPlatformService[name](arg);
       if (data.ok) {
         if (arg?.cb) arg.cb();
-        return _ && (await data.json());
+        return !deleteCase && (await data.json());
       }
-      return rejectWithValue(_ && (await data.json()));
+      return rejectWithValue(!deleteCase && (await data.json()));
     } catch (error) {
       console.log(error)
-      return rejectWithValue(_ && error.response.data);
+      return rejectWithValue(!deleteCase && error.response.data);
     }
   });
 };

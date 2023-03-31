@@ -1,4 +1,8 @@
+// import store from '../store';
+
 export default class blogPlatformService {
+  // static #token = () => store.getState().authorization.token;
+
   static #customFetch = async (urlPart, payload) => {
     const response = await fetch(
       `https://blog.kata.academy/api/${urlPart}`,
@@ -18,7 +22,7 @@ export default class blogPlatformService {
       }
     );
 
-  static getArticle = async ({slug, token}) =>
+  static getArticle = async ({ slug, token }) =>
     await this.#customFetch(
       `articles/${slug}`,
       token && {
@@ -31,7 +35,7 @@ export default class blogPlatformService {
 
   static #interactionWithArticle =
     (method) =>
-    async ({ data, token, slug }) =>
+    async ({ data, token, slug = '' }) =>
       await this.#customFetch(`articles/${slug}`, {
         method,
         headers: {
@@ -44,9 +48,9 @@ export default class blogPlatformService {
   static editeArticle = this.#interactionWithArticle('PUT');
   static deleteArticle = this.#interactionWithArticle('DELETE');
 
-  static favoriteArticle = async (slug, token, method) =>
+  static favoriteArticle = async (slug, token, favorite) =>
     await this.#customFetch(`articles/${slug}/favorite`, {
-      method,
+      method: favorite ? 'DELETE' : 'POST',
       headers: {
         Authorization: `Token ${token}`,
         'Content-Type': 'application/json',

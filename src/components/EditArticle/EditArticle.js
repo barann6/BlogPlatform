@@ -5,6 +5,7 @@ import { editeArticle, getArticle } from '../../store';
 import ArticleForm from '../ArticleForm/ArticleForm';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import Loader from '../Loader/Loader';
+import { SIGNIN } from '../../routing_paths';
 
 const EditArticle = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const EditArticle = () => {
   const error = useSelector((state) => state.openedArticle.error);
 
   if (isLoading) return <Loader />;
-  if (!isAuthorize) return <Redirect to="/sign-in/" />;
+  if (!isAuthorize) return <Redirect to={SIGNIN} />;
   if (error) return <ErrorMessage />;
 
   return (

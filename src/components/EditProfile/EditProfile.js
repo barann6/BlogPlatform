@@ -3,9 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
-import classes from './EditProfile.module.scss';
 import Loader from '../Loader/Loader';
 import { updateUserData, clearAuthorizationErrors } from '../../store';
+import { SIGNIN } from '../../routing_paths';
+import Form, { Email, ImgUrl, Password, Submit, Username } from '../Form/Form';
 
 function EditProfile() {
   const dispatch = useDispatch();
@@ -23,23 +24,25 @@ function EditProfile() {
   const [emailError, setEmailError] = useState(false);
 
   useEffect(() => {
-    setNameError(!!serverErrors?.username)
-    setEmailError(!!serverErrors?.email)
-  }, [serverErrors])
+    setNameError(!!serverErrors?.username);
+    setEmailError(!!serverErrors?.email);
+  }, [serverErrors]);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    watch,
-    formState: { errors: formErrors, isValid },
-  } = useForm({ mode: 'onBlur' });
+  const { handleSubmit, reset, control } = useForm({
+    mode: 'onBlur',
+    defaultValues: { username: '', email: '', password: '', image: '', submit: '' },
+    /* У управляемых полей, с пропом control, нельзя оставлять значения по умолчанию undefiend
+    https://react-hook-form.com/api/usecontroller/#:~:text=Important%3A%20Can%20not%20apply%20undefined%20to%20defaultValue%20or%20defaultValues%20at%20useForm. */
+  });
 
   if (isLoading) return <Loader />;
-  if (!isAuthorize) return <Redirect to="/sign-in/" />;
+  if (!isAuthorize) return <Redirect to={SIGNIN} />;
 
   const onSubmit = (data) => {
     const user = {};
+    /* В форме могут оСтаваться пустые поля, но их
+    нужно отфильтровывать перед отправкой, иначе 
+    ошибка 422 <field> "can't be blank" */
     for (let field in data) {
       if (data[field]) user[field] = data[field];
     }
@@ -55,97 +58,34 @@ function EditProfile() {
   };
 
   return (
-    <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-      <h2>Edit Profile</h2>
-
-      <label>Username</label>
-      <input
-        placeholder="Username"
-        {...register('username', {
-          minLength: 3,
-          maxLength: 20,
-          onChange: () => setNameError(false),
-        })}
-        className={
-          formErrors?.username || nameError ? classes.invalid : undefined
-        }
+    <Form title="Edit Profile" onSubmit={handleSubmit(onSubmit)}>
+      <Username
+        control={control}
+        serverError={nameError}
+        onChange={() => setNameError(false)}
+        required={false}
       />
-      {(formErrors?.username && (
-        <section className={classes.warrning}>
-          Your name needs to be at least 3 and not longer then 20 characters.
-        </section>
-      )) ||
-        (nameError && (
-          <section className={classes.warrning}>
-            This name is already taken.
-          </section>
-        ))}
 
-      <label>Email address</label>
-      <input
-        placeholder="Email address"
-        {...register('email', {
-          pattern: /\S+@\S+\.\S+/,
-          onChange: () => setEmailError(false),
-        })}
-        className={
-          formErrors?.email || emailError ? classes.invalid : undefined
-        }
+      <Email
+        control={control}
+        serverError={emailError}
+        onChange={() => setEmailError(false)}
+        required={false}
       />
-      {(formErrors?.email && (
-        <section className={classes.warrning}>
-          Entered value does not match email format.
-        </section>
-      )) ||
-        (emailError && (
-          <section className={classes.warrning}>
-            This email is already taken.
-          </section>
-        ))}
 
-      <label>New password</label>
-      <input
-        type="password"
-        placeholder="New password"
-        {...register('password', {
-          minLength: 6,
-          maxLength: 40,
-        })}
-        className={formErrors?.password ? classes.invalid : undefined}
-      />
-      {formErrors?.password && (
-        <section className={classes.warrning}>
+      <Password
+        control={control}
+        label="New password"
+        warrning="
           Your password needs to be at least 6 and not longer then 40
-          characters.
-        </section>
-      )}
-
-      <label>Avatar image (url)</label>
-      <input
-        placeholder="Avatar image"
-        {...register('image', {
-          pattern:
-            /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
-        })}
-        className={formErrors?.avatarImage ? classes.invalid : undefined}
+          characters."
+        required={false}
       />
-      {formErrors?.image && (
-        <section className={classes.warrning}>
-          Entered value does not match url format.
-        </section>
-      )}
 
-      <input
-        type="submit"
-        value="Save"
-        disabled={
-          !isValid ||
-          !watch(['username', 'email', 'password', 'image']).reduce(
-            (pr, cr) => pr || cr
-          )
-        }
-      />
-    </form>
+      <ImgUrl control={control} required={false} />
+
+      <Submit control={control} value="Save" />
+    </Form>
   );
 }
 

@@ -34,21 +34,15 @@ function ArticleInfo({ data, mod }) {
   const createdAtDisplay = format(new Date(createdAt), 'MMMM d, yyyy');
 
   const like = async () => {
-    const _ = blogPlatformService.favoriteArticle;
-    let resp;
     try {
-      if (_favorited) {
-        resp = await _(slug, token, 'DELETE');
-        if (resp.ok) {
-          setFavoritesCount(_favoritesCount - 1);
-          setFavorited(false);
-        }
-      } else {
-        resp = await _(slug, token, 'POST');
-        if (resp.ok) {
-          setFavoritesCount(_favoritesCount + 1);
-          setFavorited(true);
-        }
+      const resp = await blogPlatformService.favoriteArticle(
+        slug,
+        token,
+        _favorited
+      );
+      if (resp.ok) {
+        setFavoritesCount(_favoritesCount + (_favorited ? -1 : 1));
+        setFavorited(!_favorited);
       }
     } catch {
       return;

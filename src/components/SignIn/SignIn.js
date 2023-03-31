@@ -3,9 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
-import classes from './SignIn.module.scss';
+import Form, { Email, Password, Submit } from '../Form/Form';
 import Loader from '../Loader/Loader';
 import { signIn, clearAuthorizationErrors } from '../../store';
+import { SIGNUP } from '../../routing_paths';
 
 function SignIn() {
   const dispatch = useDispatch();
@@ -14,16 +15,19 @@ function SignIn() {
     dispatch(clearAuthorizationErrors());
   }, []);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors: formErrors, isValid },
-  } = useForm({ mode: 'onBlur' });
+  const { handleSubmit, control } = useForm({
+    mode: 'onBlur',
+    defaultValues: { email: '', password: '' },
+    /* defaultValues можно указать через useControl в их персональных компонентах, но
+    перестает корректно работать свойство isDirty (TRUE на пустых полях почему-то, 
+    но если установить их так, то все норм). По этому я задаю defaultValues здесь, и для 
+    SignUP и EditProfile пришлось так же.*/
+  });
 
-  const serverErrors = useSelector((state) => state.authorization.errors);
+  const error = useSelector((state) => state.authorization.errors);
   const isLoading = useSelector((state) => state.authorization.loading);
   const isAuthorize = useSelector((state) => state.authorization.userName);
-  
+
   if (isLoading) return <Loader />;
   if (isAuthorize) return <Redirect to="/" />;
 
@@ -32,53 +36,20 @@ function SignIn() {
   };
 
   return (
-    <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-      <h2>Sign in</h2>
+    <Form
+      title="Sign in"
+      footer={['Don’t have an account? ', <Link to={SIGNUP}>Sign Up.</Link>]}
+      onSubmit={handleSubmit(onSubmit)}>
+      <Email control={control} />
 
-      <label>Email address</label>
-      <input
-        placeholder="Email address"
-        {...register('email', {
-          required: true,
-          pattern: /\S+@\S+\.\S+/,
-        })}
-        className={formErrors?.email ? classes.invalid : undefined}
+      <Password
+        control={control}
+        warrning="Password required."
+        rules={{ required: true }}
       />
-      {formErrors?.email && (
-        <section className={classes.warrning}>
-          Entered value does not match email format.
-        </section>
-      )}
 
-      <label>Password</label>
-      <input
-        type="password"
-        placeholder="Password"
-        {...register('password', {
-          required: true,
-        })}
-        className={formErrors?.password ? classes.invalid : undefined}
-      />
-      {formErrors?.password && (
-        <section className={classes.warrning}>Password required.</section>
-      )}
-
-      <input
-        type="submit"
-        value="Login"
-        className={classes.submit}
-        disabled={!isValid}
-      />
-      {serverErrors?.username && (
-        <section className={classes.warrning}>
-          Email or password is invalid.
-        </section>
-      )}
-
-      <section>
-        Don’t have an account? <Link to="/sign-up">Sign Up.</Link>
-      </section>
-    </form>
+      <Submit control={control} value="Login" error={error} />
+    </Form>
   );
 }
 

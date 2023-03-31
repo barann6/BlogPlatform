@@ -1,3 +1,5 @@
+$red: #f5222d;
+$blue: #1890ff;
 .form {
   display: flex;
   flex-direction: column;
@@ -35,26 +37,48 @@
     &::placeholder {
       color: #8c8c8c;
     }
+    &.invalid {
+      border-color: $red;
+    }
     &[type='submit'] {
-      background-color: #1890ff;
+      background-color: $blue;
       color: #fff;
+      cursor: pointer;
+      &:disabled {
+        background-color: rgba($blue, .6);
+        cursor: not-allowed;
+      }
     }
   }
-  & section {
+  & .checkbox {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 9px;
+    margin-bottom: 21px;
+    padding-top: 8px;
+    border-top: 1px solid #e8e8e8;
+    color: #595959;
+    & input {
+      margin: 0;
+      margin-right: 8px;
+      margin-top: 4px;
+    }
+  }
+  & footer {
     margin-top: -4px;
     font-size: 12px;
     line-height: 20px;
     text-align: center;
     color: #8c8c8c;
     & a {
-      color: #1890ff;
+      color: $blue;
       text-decoration: none;
     }
   }
-  & .warrning {
+  & section{
     margin-top: -12px;
     margin-bottom: 12px;
-    color: #f5222d;
+    color: $red;
     text-align: left;
     font-size: 14px;
     line-height: 22px;

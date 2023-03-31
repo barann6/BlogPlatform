@@ -4,6 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import classes from './Layout.module.scss';
 import { getArticlesList, logOut, togglePage } from '../../store';
 import placeholder from '../../images/placeholder.jpg';
+import { CREATE, PROFILE, SIGNIN, SIGNUP } from '../../routing_paths';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -30,15 +31,13 @@ function Layout() {
       </Link>
 
       {user.userName && (
-        <button
-          className={classes.create}
-          onClick={() => history.push('/new-article/')}>
+        <button className={classes.create} onClick={() => history.push(CREATE)}>
           Create article
         </button>
       )}
 
       {user.userName && (
-        <Link to="/profile/" className={classes.user}>
+        <Link to={PROFILE} className={classes.user}>
           {user.userName}
           {user.image && (
             <img
@@ -56,7 +55,7 @@ function Layout() {
           className={[classes.authto, classes.logOut].join(' ')}
           onClick={() => {
             dispatch(logOut());
-            history.push('/');
+            history.push("/");
           }}>
           Log Out
         </button>
@@ -66,7 +65,7 @@ function Layout() {
         <button
           className={classes.authto}
           onClick={() => {
-            history.push('/sign-in/');
+            history.push(SIGNIN);
           }}>
           Sign In
         </button>
@@ -76,7 +75,7 @@ function Layout() {
         <button
           className={[classes.authto, classes.signUp].join(' ')}
           onClick={() => {
-            history.push('/sign-up/');
+            history.push(SIGNUP);
           }}>
           Sign Up
         </button>

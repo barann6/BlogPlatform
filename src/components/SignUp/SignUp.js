@@ -3,9 +3,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
-import classes from './SignUp.module.scss';
 import Loader from '../Loader/Loader';
+import Form, {
+  Checkbox,
+  Email,
+  Input,
+  Password,
+  Submit,
+  Username,
+} from '../Form/Form';
 import { clearAuthorizationErrors, signUp } from '../../store';
+import { SIGNIN } from '../../routing_paths';
 
 function SignUp() {
   const dispatch = useDispatch();
@@ -30,8 +38,19 @@ function SignUp() {
     register,
     watch,
     handleSubmit,
-    formState: { errors: formErrors, isValid },
-  } = useForm({ mode: 'onBlur' });
+    control,
+    formState: { errors: formErrors },
+  } = useForm({
+    mode: 'onBlur',
+    defaultValues: {
+      username: '',
+      email: '',
+      password: '',
+      repeatPassword: '',
+      checkbox: false,
+      submit: '',
+    },
+  });
 
   if (isLoading) return <Loader />;
   if (isAuthorize) return <Redirect to="/" />;
@@ -41,100 +60,47 @@ function SignUp() {
   };
 
   return (
-    <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-      <h2>Create new account</h2>
-
-      <label>Username</label>
-      <input
-        placeholder="Username"
-        {...register('username', {
-          required: true,
-          minLength: 3,
-          maxLength: 20,
-          onChange: () => setNameError(false),
-        })}
-        className={formErrors?.username ? classes.invalid : undefined}
+    <Form
+      title="Create new account"
+      footer={['Already have an account? ', <Link to={SIGNIN}>Sign In.</Link>]}
+      onSubmit={handleSubmit(onSubmit)}>
+      <Username
+        control={control}
+        serverError={nameError}
+        onChange={() => setNameError(false)}
       />
-      {(formErrors?.username && (
-        <section className={classes.warrning}>
-          Your name needs to be at least 3 and not longer then 20 characters.
-        </section>
-      )) ||
-        (nameError && (
-          <section className={classes.warrning}>
-            This name is already taken.
-          </section>
-        ))}
 
-      <label>Email address</label>
-      <input
-        placeholder="Email address"
-        {...register('email', {
-          required: true,
-          pattern: /\S+@\S+\.\S+/,
-          onChange: () => setEmailError(false),
-        })}
-        className={formErrors?.email ? classes.invalid : undefined}
+      <Email
+        control={control}
+        serverError={emailError}
+        onChange={() => setEmailError(false)}
       />
-      {(formErrors?.email && (
-        <section className={classes.warrning}>
-          Entered value does not match email format.
-        </section>
-      )) ||
-        (emailError && (
-          <section className={classes.warrning}>
-            This email is already taken.
-          </section>
-        ))}
 
-      <label>Password</label>
-      <input
-        type="password"
-        placeholder="Password"
-        {...register('password', {
-          required: true,
-          minLength: 6,
-          maxLength: 40,
-        })}
-        className={formErrors?.password ? classes.invalid : undefined}
-      />
-      {formErrors?.password && (
-        <section className={classes.warrning}>
+      <Password
+        control={control}
+        warrning="
           Your password needs to be at least 6 and not longer then 40
-          characters.
-        </section>
-      )}
-
-      <label>Repeat Password</label>
-      <input
-        type="password"
-        placeholder="Password"
-        {...register('repeatPassword', {
-          required: true,
-          validate: (value) => value === watch('password'),
-        })}
-        className={formErrors?.repeatPassword ? classes.invalid : undefined}
+          characters."
       />
-      {formErrors?.repeatPassword && (
-        <section className={classes.warrning}>Passwords must match.</section>
-      )}
 
-      <label className={classes.personal_info}>
-        <input
-          type="checkbox"
-          {...register('checkbox', {
+      <Input
+        label="Repeat Password"
+        placeholder="Password"
+        error={formErrors?.repeatPassword}
+        warrning={formErrors?.repeatPassword && 'Passwords must match.'}
+        fieldProps={{
+          ...register('repeatPassword', {
             required: true,
-          })}
-        />
-        I agree to the processing of my personal information
-      </label>
+            validate: (value) => value === watch('password'),
+          }),
+          type: 'password',
+        }}
+      />
 
-      <input type="submit" value="Create" disabled={!isValid} />
+      <Checkbox control={control} />
 
-      <section>
-        Already have an account? <Link to="/sign-in">Sign In.</Link>
-      </section>
-    </form>
+      <Submit control={control} value="Create" />
+    </Form>
   );
 }
 
