@@ -40,17 +40,7 @@ function SignUp() {
     handleSubmit,
     control,
     formState: { errors: formErrors },
-  } = useForm({
-    mode: 'onBlur',
-    defaultValues: {
-      username: '',
-      email: '',
-      password: '',
-      repeatPassword: '',
-      checkbox: false,
-      submit: '',
-    },
-  });
+  } = useForm({ mode: 'onBlur' });
 
   if (isLoading) return <Loader />;
   if (isAuthorize) return <Redirect to="/" />;

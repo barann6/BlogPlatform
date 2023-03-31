@@ -30,9 +30,6 @@ function EditProfile() {
 
   const { handleSubmit, reset, control } = useForm({
     mode: 'onBlur',
-    defaultValues: { username: '', email: '', password: '', image: '', submit: '' },
-    /* У управляемых полей, с пропом control, нельзя оставлять значения по умолчанию undefiend
-    https://react-hook-form.com/api/usecontroller/#:~:text=Important%3A%20Can%20not%20apply%20undefined%20to%20defaultValue%20or%20defaultValues%20at%20useForm. */
   });
 
   if (isLoading) return <Loader />;

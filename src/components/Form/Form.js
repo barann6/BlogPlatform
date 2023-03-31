@@ -19,6 +19,7 @@ function Input({ label, placeholder, fieldProps, error, warrning }) {
 function Username({ control, serverError, onChange, required = true }) {
   const { field, fieldState } = useController({
     control,
+    defaultValue: '',
     name: 'username',
     rules: {
       onChange,
@@ -47,6 +48,7 @@ function Username({ control, serverError, onChange, required = true }) {
 function Email({ control, serverError, onChange, required = true }) {
   const { field, fieldState } = useController({
     control,
+    defaultValue: '',
     name: 'email',
     rules: { onChange, required, pattern: /\S+@\S+\.\S+/ },
   });
@@ -79,6 +81,7 @@ function Password({
 }) {
   const { field, fieldState } = useController({
     control,
+    defaultValue: '',
     rules,
     name: 'password',
   });
@@ -97,6 +100,7 @@ function Password({
 function ImgUrl({ control, required = true }) {
   const { field, fieldState } = useController({
     control,
+    defaultValue: '',
     name: 'image',
     rules: {
       required,
@@ -120,6 +124,7 @@ function ImgUrl({ control, required = true }) {
 function Checkbox({ control, required = true }) {
   const { field } = useController({
     control,
+    defaultValue: '',
     name: 'checkbox',
     rules: { required },
   });
@@ -133,14 +138,14 @@ function Checkbox({ control, required = true }) {
 }
 
 function Submit({ control, value, error }) {
-  const { formState } = useController({ control, name: 'submit' });
+  const { formState } = useController({
+    control,
+    defaultValue: '',
+    name: 'submit',
+  });
   return (
     <>
-      <input
-        type="submit"
-        value={value}
-        disabled={!(formState.isValid && formState.isDirty)}
-      />
+      <input type="submit" value={value} disabled={!formState.isValid} />
       {error && <section>Email or password is invalid.</section>}
     </>
   );

@@ -15,14 +15,7 @@ function SignIn() {
     dispatch(clearAuthorizationErrors());
   }, []);
 
-  const { handleSubmit, control } = useForm({
-    mode: 'onBlur',
-    defaultValues: { email: '', password: '' },
-    /* defaultValues можно указать через useControl в их персональных компонентах, но
-    перестает корректно работать свойство isDirty (TRUE на пустых полях почему-то, 
-    но если установить их так, то все норм). По этому я задаю defaultValues здесь, и для 
-    SignUP и EditProfile пришлось так же.*/
-  });
+  const { handleSubmit, control } = useForm({ mode: 'onBlur' });
 
   const error = useSelector((state) => state.authorization.errors);
   const isLoading = useSelector((state) => state.authorization.loading);
